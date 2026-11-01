@@ -72,10 +72,12 @@ function currentUser(req) {
   return token ? stmt.userByToken.get(token) : undefined;
 }
 
-// 允許跨來源呼叫的前端網址：Vercel 正式網址，以及同一個 Vercel 帳號下的預覽網址。
+// 允許跨來源呼叫的前端網址：Vercel 正式網址、GitHub Pages，以及同一個 Vercel 帳號下的預覽網址。
 // 可用環境變數 CORS_ORIGINS（逗號分隔）額外加入其他來源。
 const ALLOWED_ORIGINS = new Set([
   'https://claudecodetreasuregame-initial-cyan-six.vercel.app',
+  // GitHub Pages（來源只含網域，不含 /treasure-game/ 路徑）
+  'https://fangyukuo.github.io',
   ...(process.env.CORS_ORIGINS || '').split(',').map((s) => s.trim()).filter(Boolean),
 ]);
 const PREVIEW_ORIGIN = /^https:\/\/claudecodetreasuregame-initial-[a-z0-9]+-mashsrod-9527\.vercel\.app$/;
